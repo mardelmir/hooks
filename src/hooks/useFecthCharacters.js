@@ -1,38 +1,39 @@
 import { useState, useEffect } from "react"
 
-const fetchApi = async (url) => {
-    try {
-        const response = await fetch(url)
-        if (!response.ok) { throw new Error('Error: la solicitud para acceder a la API no ha sido exitosa') }
-        const data = await response.json()
-        return data
-    }
-    catch (error) { console.log(error) }
-}
-
-const filterData = (data) => {
-    const name = data.name
-    const img = data.image || data.sprites.other['official-artwork'].front_default
-    return { name, img }
-}
-
-
 function useFetchCharacters(url) {
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState(null)
+    const [data, setData] = useState([])
     const [character, setCharacter] = useState([])
 
     useEffect(() => {
-        const renderInfo = async () => {
+        const fetchData = async () => {
             try {
-                const data = await fetchApi(url)
-                const characterInfo = filterData(data)
-               
+                const response = await fetch(url)
+                if (!response.ok) { throw new Error('Error al obtener datos de la API') }
+                const jsonData = await response.json()
+                setData(() => jsonData)
+                setCharacter({
+                    id: jsonData.id,
+                    name: jsonData.name.charAt(0).toUpperCase() + jsonData.name.slice(1),
+                    img: jsonData.image || jsonData.sprites.other['official-artwork'].front_default
+                })
+                setIsLoading(false)
             }
-            catch (error) { console.log(error) }
+            catch (error) {
+                console.log(error)
+                setError(error)
+            }
         }
-
-        renderInfo()
+        fetchData()
     }, [url])
 
+    return {
+        isLoading,
+        error,
+        data, // se exporta data completa en caso de que en un futuro se necesitase más información además del nombre/imagen
+        character
+    }
 }
 
 export default useFetchCharacters
