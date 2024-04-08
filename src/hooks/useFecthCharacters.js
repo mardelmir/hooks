@@ -23,6 +23,7 @@ function useFetchCharacters(url) {
             catch (error) {
                 console.log(error)
                 setError(error)
+                setIsLoading(false)
             }
         }
         fetchData()
