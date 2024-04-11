@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-function useFetchCharacters(url) {
+export default function useFetchCharacters(url) {
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState(null)
     const [data, setData] = useState([])
@@ -21,7 +21,7 @@ function useFetchCharacters(url) {
                 setIsLoading(false)
             }
             catch (error) {
-                console.log(error)
+                console.error(error)
                 setError(error)
                 setIsLoading(false)
             }
@@ -36,5 +36,3 @@ function useFetchCharacters(url) {
         character
     }
 }
-
-export default useFetchCharacters

@@ -1,0 +1,102 @@
+// components/Form.jsx
+import { useState } from "react"
+
+export default function Form({ updateUrl }) {
+    const [input, setInput] = useState('')
+    const [api, setApi] = useState()
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        setInput(i => i.toLowerCase().trim())
+
+        if (api === '') { updateUrl([]) } else {
+            api === 'pokemon'
+                ? updateUrl([`https://pokeapi.co/api/v2/pokemon/${input}`])
+                : updateUrl([`https://rickandmortyapi.com/api/character/?name=${input}`])
+        }
+
+        setInput('')
+        setApi('')
+    }
+
+    return (
+        <form className='search' onSubmit={handleSubmit}>
+            <input
+                type='text'
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                placeholder='Nombre del personaje' />
+            <button className='pokeBtn' onClick={() => setApi('pokemon')} type='submit'>Pokemon</button>
+            <button className='rickBtn' onClick={() => setApi('rick')} type='submit'>Rick & Morty</button>
+            <button type='submit' onClick={() => setApi()}>Reset</button>
+        </form>
+    )
+}
+
+// App.jsx
+import Form from './components/Form';
+import { useState } from "react"
+
+export default function App() {
+    const [url, setUrl] = useState([])
+    const updateUrl = (url) => setUrl(url)
+  
+    const urlPokemon = 'https://pokeapi.co/api/v2/pokemon/1';
+    const urlRick = 'https://rickandmortyapi.com/api/character/1';
+    
+    const { character: pokeChar } = useFetchCharacters(urlPokemon)
+    const { character: rickChar } = useFetchCharacters(urlRick)
+  
+    return (
+      <>
+        <h1>Custom Hook</h1>
+        <Form updateUrl={updateUrl} />
+        <ul className='characters'>
+          <Character character={pokeChar} />
+          <Character character={rickChar} />
+        </ul>
+      </>
+    );
+  }
+  
+  // `https://pokeapi.co/api/v2/pokemon/{id or name}` SÍ es case sensitive
+  // `https://rickandmortyapi.com/api/character/?name={}` NO es case sensitive
+
+  //App.css
+  .search {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.pokeBtn{
+  background-color: #f3b7b5;
+}
+
+.pokeBtn:hover {
+  background-color: #e45855;
+  color: white;
+}
+
+.rickBtn {
+  background-color: #abf0d5;
+}
+
+.rickBtn:hover{
+  background-color: #3fce97;
+  color: white;
+}
+
+//index.css
+input {
+  padding: 7px;
+  margin-right: 7px;
+  border: 1px solid rgb(138, 160, 180);
+  border-radius: 3px;
+}
+
+input:focus{
+  border-color: transparent;
+  border-radius: 3px;
+  outline: 2px solid rgb(138, 160, 180);
+}

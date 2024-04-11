@@ -1,31 +1,30 @@
 import './App.css';
-import { useState } from "react"
 import Character from './components/Character';
 import useFetchCharacters from './hooks/useFecthCharacters';
-import Form from './components/Form';
 
-function App() {
-  const [input, setInput] = useState('')
-  // `https://pokeapi.co/api/v2/pokemon/{id or name}` SÍ es case sensitive
+export default function App() {
   const urlPokemon = 'https://pokeapi.co/api/v2/pokemon/1';
-
-  // `https://rickandmortyapi.com/api/character/?name={}` NO es case sensitive
-  // `https://rickandmortyapi.com/api/character/{id}`
   const urlRick = 'https://rickandmortyapi.com/api/character/1';
 
-  const { character: pokeChar } = useFetchCharacters(urlPokemon)
-  const { character: rickChar } = useFetchCharacters(urlRick)
+  const { character: pokeChar, isLoading: pokeLoad, error: pokError } = useFetchCharacters(urlPokemon)
+  const { character: rickChar, isLoading: rickLoad, error: rickError } = useFetchCharacters(urlRick)
 
   return (
     <>
       <h1>Custom Hook</h1>
-      <Form input={input} setInput={setInput} />
-      <ul className='characters'>
-        <Character character={pokeChar} />
-        <Character character={rickChar} />
-      </ul>
+      <div className='characters'>
+        {pokeLoad
+          ? (<h3>Cargando Pokémon...</h3>)
+          : !pokError
+            ? (<Character character={pokeChar} />)
+            : (<h3>{pokError}</h3>)}
+
+        {rickLoad
+          ? (<h3>Cargando Pokémon...</h3>)
+          : !rickError
+            ? (<Character character={rickChar} />)
+            : (<h3>{rickError}</h3>)}
+      </div>
     </>
   );
 }
-
-export default App;

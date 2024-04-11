@@ -16,7 +16,6 @@
   min-width: 90%;
   padding: 0px;
   margin-top: 50px;
-  list-style: none;
 }
 
 .card p {
@@ -28,7 +27,6 @@
   max-width: 250px;
   border-radius: 5px;
 }
-
 
 @media (max-width:600px) {
   .characters {
