@@ -20,7 +20,7 @@ export default function App() {
             : (<h3>{pokError}</h3>)}
 
         {rickLoad
-          ? (<h3>Cargando Pokémon...</h3>)
+          ? (<h3>Cargando Rick & Morty...</h3>)
           : !rickError
             ? (<Character character={rickChar} />)
             : (<h3>{rickError}</h3>)}
