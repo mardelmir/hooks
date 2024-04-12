@@ -13,12 +13,12 @@ export default function useFetchCharacters(url) {
                 if (!response.ok) { throw new Error('Error al obtener datos de la API') }
                 const jsonData = await response.json()
                 setData(() => jsonData)
-                setCharacter({
+                setIsLoading(false)
+                setCharacter({ // habría que hacerlo para que valiese para CUALQUIER API
                     id: jsonData.id,
                     name: jsonData.name.charAt(0).toUpperCase() + jsonData.name.slice(1),
                     img: jsonData.image || jsonData.sprites.other['official-artwork'].front_default
                 })
-                setIsLoading(false)
             }
             catch (error) {
                 console.error(error)
@@ -27,7 +27,7 @@ export default function useFetchCharacters(url) {
             }
         }
         fetchData()
-    }, [url])
+    }, [])
 
     return {
         isLoading,
@@ -36,3 +36,26 @@ export default function useFetchCharacters(url) {
         character
     }
 }
+
+// Clase
+// export const useFetch = (url) => {
+//     const [character, setCharacter] = useState(null)
+//     const [isLoading, setIsLoading] = useState(true)
+
+//     useEffect(() => {
+//         const fetchData = async () => {
+//             try {
+//                 const response = await fetch(url)
+//                 const data = await response.json()
+//                 setCharacter(data)
+//                 setIsLoading(false)
+//             }
+//             catch (error) {
+//                 console.log(error)
+//             }
+//         }
+//         fetchData
+//     }, [url]) // [] puede estar vacío también
+
+//     return { character, isLoading }
+// }

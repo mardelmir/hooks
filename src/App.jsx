@@ -1,6 +1,6 @@
 import './App.css';
-import Character from './components/Character';
-import useFetchCharacters from './hooks/useFecthCharacters';
+import Character from './components/Character.jsx';
+import useFetchCharacters from './hooks/useFecthCharacters.js';
 
 export default function App() {
   const urlPokemon = 'https://pokeapi.co/api/v2/pokemon/1';
@@ -28,3 +28,27 @@ export default function App() {
     </>
   );
 }
+
+// Clase
+{/* <>
+  {pokeLoad
+    ? <p>Loading pokemon...</p>
+    :
+    <div>
+      <h2>Personaje pokemon</h2>
+      <p>{pokeChar.name}</p>
+      <img src={poke.sprites.other['official-artwork'].front_default} alr={pokeChar.name} />
+    </div>
+  }
+</> */}
+{/* <>
+  {pokeChar===null
+    ? <p>Loading pokemon...</p>
+    :
+    <div>
+      <h2>Personaje pokemon</h2>
+      <p>{pokeChar.name}</p>
+      <img src={poke.sprites.other['official-artwork'].front_default} alr={pokeChar.name} />
+    </div>
+  }
+</> */}
